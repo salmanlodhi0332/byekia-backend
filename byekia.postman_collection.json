@@ -1,0 +1,80 @@
+{
+	"info": {
+		"_postman_id": "19559714-4f90-4fa1-b387-047588e14bfd",
+		"name": "byekia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40903124",
+		"_collection_link": "https://toysell.postman.co/workspace/Team-Workspace~c90c7bf4-5a08-4137-86f5-7eabf52d5273/collection/40903124-19559714-4f90-4fa1-b387-047588e14bfd?action=share&source=collection_link&creator=40903124"
+	},
+	"item": [
+		{
+			"name": "registeration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localUrl}}/api/Registration",
+					"host": [
+						"{{localUrl}}"
+					],
+					"path": [
+						"api",
+						"Registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verify registration",
+			"request": {
+				"method": "POST",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "verifyUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{localUrl}}/api/verifyUser",
+					"host": [
+						"{{localUrl}}"
+					],
+					"path": [
+						"api",
+						"verifyUser"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "localUrl",
+			"value": "http://localhost:5001",
+			"type": "default"
+		}
+	]
+}
