@@ -36,7 +36,6 @@ exports.Registration = async (req, res) => {
   }
 };
 
-
 exports.verifyRegistrationOtp = async (req, res) => {
   const {
     name,
@@ -132,7 +131,6 @@ exports.verifyUser = async (req, res) => {
   }
 };
 
-
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -172,8 +170,6 @@ exports.login = async (req, res) => {
     res.status(500).json({ status: 500, message: 'Login failed.', error: error.message });
   }
 };
-
-
 
 exports.forgetPassword = async (req, res) => {
   const { email } = req.body;
@@ -215,7 +211,6 @@ exports.forgetPassword = async (req, res) => {
   }
 };
 
-
 exports.verifyOtp = (req, res) => {
   const { email, otp } = req.body;
 
@@ -249,7 +244,6 @@ exports.verifyOtp = (req, res) => {
   });
 };
 
-
 exports.resetPassword = async (req, res) => {
   const { email, new_password } = req.body;
 
@@ -268,7 +262,6 @@ exports.resetPassword = async (req, res) => {
     res.status(200).json({
       status: 200,
       message: 'Password reset successfully.',
-      data: {}
     });
   } catch (error) {
     res.status(500).json({
@@ -278,8 +271,6 @@ exports.resetPassword = async (req, res) => {
     });
   }
 };
-
-
 
 exports.getAllUsers = async (req, res) => {
   try {
@@ -298,14 +289,21 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-
 exports.getUserById = async (req, res) => {
   try {
     const [user] = await db.execute('SELECT * FROM users_table WHERE id = ?', [req.params.id]);
+
+    if (user.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: 'User not found.',
+      });
+    }
+
     res.status(200).json({
       status: 200,
       message: 'User fetched successfully.',
-      data: user[0] || null
+      data: user[0]
     });
   } catch (error) {
     res.status(500).json({
@@ -315,7 +313,6 @@ exports.getUserById = async (req, res) => {
     });
   }
 };
-
 
 exports.updateUser = async (req, res) => {
   const { name, phone_number } = req.body;
@@ -377,9 +374,18 @@ exports.deleteUser = async (req, res) => {
   const userId = req.params.id;
 
   try {
-    // 1. Delete userImage file (if needed)
+    // 0. Check if user exists
     const [userRows] = await db.execute('SELECT userImage FROM users_table WHERE id = ?', [userId]);
-    if (userRows.length > 0 && userRows[0].userImage) {
+
+    if (userRows.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: 'User not found.',
+      });
+    }
+
+    // 1. Delete userImage file (if exists)
+    if (userRows[0].userImage) {
       const profilePath = path.join(__dirname, '../public/profiles', userRows[0].userImage);
       if (fs.existsSync(profilePath)) fs.unlinkSync(profilePath);
     }
@@ -392,7 +398,7 @@ exports.deleteUser = async (req, res) => {
     });
     await db.execute('DELETE FROM users_docs_table WHERE userId = ?', [userId]);
 
-    // 3. Get ride IDs where user is either userId or riderId
+    // 3. Delete rides + reviews
     const [rideRows] = await db.execute(`
       SELECT id FROM Ride_details_table WHERE userId = ? OR riderId = ?
     `, [userId, userId]);
@@ -404,11 +410,11 @@ exports.deleteUser = async (req, res) => {
       await db.execute(`DELETE FROM Ride_details_table WHERE id IN (${placeholders})`, rideIds);
     }
 
-    // 4. Delete related FCM tokens and notifications
+    // 4. Delete tokens and notifications
     await db.execute('DELETE FROM FCMtoken_table WHERE userId = ?', [userId]);
     await db.execute('DELETE FROM Notification_table WHERE userId = ?', [userId]);
 
-    // 5. Finally, delete the user
+    // 5. Delete user
     await db.execute('DELETE FROM users_table WHERE id = ?', [userId]);
 
     res.status(200).json({
@@ -427,7 +433,6 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-
 exports.resendOtp = async (req, res) => {
   const { email, purpose } = req.body;
 
@@ -443,7 +448,7 @@ exports.resendOtp = async (req, res) => {
   try {
     // Validate user existence if purpose is login or forgetPassword
     if (purpose === 'login' || purpose === 'forgetPassword') {
-      const [users] = await db.execute('SELECT * FROM user_table WHERE email = ?', [email]);
+      const [users] = await db.execute('SELECT * FROM users_table WHERE email = ?', [email]);
       if (users.length === 0) {
         return res.status(404).json({
           status: 404,

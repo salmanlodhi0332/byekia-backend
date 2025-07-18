@@ -8,64 +8,335 @@
 	},
 	"item": [
 		{
-			"name": "registeration",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "auth",
+			"item": [
+				{
+					"name": "login and registeration flow",
+					"item": [
+						{
+							"name": "registeration",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/Registration",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"Registration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify registration",
+							"request": {
+								"method": "POST",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{localUrl}}/api/login",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verifyUser",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/verifyUser",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"verifyUser"
+									]
+								}
+							},
+							"response": []
 						}
-					}
+					]
 				},
-				"url": {
-					"raw": "{{localUrl}}/api/Registration",
-					"host": [
-						"{{localUrl}}"
-					],
-					"path": [
-						"api",
-						"Registration"
+				{
+					"name": "forgetPassword flow",
+					"item": [
+						{
+							"name": "forget password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/forget-password",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"forget-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify otp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\",\"otp\":\"5030\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/verify-otp",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"verify-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "reset password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"qxsasndq6c@mrotzis.com\",\r\n  \"new_password\": \"newpassword123\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/reset-password",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "resendOtp",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\",\"purpose\":\"forgetPassword\" }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{localUrl}}/api/resendOtp",
+									"host": [
+										"{{localUrl}}"
+									],
+									"path": [
+										"api",
+										"resendOtp"
+									]
+								}
+							},
+							"response": []
+						}
 					]
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "verify registration",
+			"name": "user api",
+			"item": [
+				{
+					"name": "get all users",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get user by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{localUrl}}/api/users/1",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "salman",
+									"type": "text"
+								},
+								{
+									"key": "phone_number",
+									"value": "032020230",
+									"type": "text"
+								},
+								{
+									"key": "userImage",
+									"type": "file",
+									"src": "/C:/Users/T 12gen i3/Downloads/3b570926-7a5c-4947-97e9-5dd2390ada42.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{localUrl}}/api/users/1",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{localUrl}}/api/users/1",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Store Fcmtoken",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userId\": 1,\r\n  \"fcmtoken\": \"abc123xyz_fcm_token_here\",\r\n  \"deviceID\": 123456\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{localUrl}}/api/fcmtokenStore",
+							"host": [
+								"{{localUrl}}"
+							],
+							"path": [
+								"api",
+								"fcmtokenStore"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check Api",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "verifyUser",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{ \"email\":\"qxsasndq6c@mrotzis.com\" }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{localUrl}}/api/verifyUser",
-					"host": [
-						"{{localUrl}}"
-					],
-					"path": [
-						"api",
-						"verifyUser"
-					]
-				}
 			},
 			"response": []
 		}

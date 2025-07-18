@@ -11,7 +11,7 @@ app.use('/images', express.static('public/images')); // optional static path
 app.use('/api', userRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the Byekia App');
+  res.send('🚀 Welcome to the Byekia App 🚀');
 });
 
 const PORT = process.env.PORT || 5001;
